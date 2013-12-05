@@ -22,7 +22,7 @@ libgl1-mesa-dev
 libgl1-mesa-glx:i386
 libncurses5-dev:i386
 libreadline6-dev:i386
-libx11-dev:i386
+libx11-dev
 libxml2-utils
 make
 wget
