@@ -34,6 +34,8 @@ libxrender1
 libxml2-utils
 libxt6
 make
+oracle-java6-installer
+oracle-java6-set-default
 wget
 zip
 zlib1g-dev:i386
