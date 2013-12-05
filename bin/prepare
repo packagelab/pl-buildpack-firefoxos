@@ -25,6 +25,7 @@ libreadline6-dev:i386
 libx11-dev:i386
 libxml2-utils
 make
+wget
 zip
 zlib1g-dev:i386
 EOT
