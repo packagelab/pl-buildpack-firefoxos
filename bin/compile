@@ -38,7 +38,7 @@ cd $build_dir >/dev/null 2>&1
   echo "-----> Sourcing build/envsetup.sh" >&2
   . build/envsetup.sh
 
-  echo "-----> Running lunch $BUILD-$BUILDTYPE" >&2
+  echo "-----> Running lunch $LUNCH" >&2
   lunch $LUNCH 2>&1 | indent
 
   echo "-----> Running make" >&2
