@@ -27,6 +27,7 @@ LUNCH=${LUNCH:-full_${DEVICE}-${VARIANT}}
 
 export USE_CCACHE=1
 export CCACHE_DIR=$cache_dir/ccache
+export WGET_OPTS='-c -q'
 
 ccache -M $ccache_max_size
 ccache -z
