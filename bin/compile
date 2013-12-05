@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# fail fast
+set -o errexit
+# cannot use 'set -o nounset' because of build/envsetup.sh below
+set -o pipefail
+
+indent() {
+  sed -u 's/^/       /'
+}
+
+scriptname=$(basename $0)
+case $# in
+  2) :;;
+  *) echo "$scriptname: usage: $scriptname BUILD_DIR CACHE_DIR" >&2; exit 2;;
+esac
+
+build_dir="$1"
+cache_dir="$2"
+ccache_max_size=50G
+num_cpu=$(grep -c ^bogomips /proc/cpuinfo)
+
+. $build_dir/.config
+
+VARIANT=${VARIANT:-eng}
+LUNCH=${LUNCH:-full_${DEVICE}-${VARIANT}}
+
+export USE_CCACHE=1
+export CCACHE_DIR=$cache_dir/ccache
+
+ccache -M $ccache_max_size
+ccache -z
+# ccache 2.x doesn't create this file, which CB uses as a marker
+touch $CCACHE_DIR/CACHEDIR.TAG
+
+cd $build_dir >/dev/null 2>&1
+(
+  echo "-----> Sourcing build/envsetup.sh" >&2
+  . build/envsetup.sh
+
+  echo "-----> Running lunch $BUILD-$BUILDTYPE" >&2
+  lunch $LUNCH 2>&1 | indent
+
+  echo "-----> Running make" >&2
+  make -j $num_cpu 2>&1 | indent
+)
+
+for img in out/target/product/*/system.img
+do
+  name=$(echo $img | awk -F/ '{print $4}')
+  echo "-----> Creating system-$name.zip" >&2
+  zip -yrj1 out/system-$name.zip $img 2>&1 | indent
+done
+
+cd - >/dev/null 2>&1

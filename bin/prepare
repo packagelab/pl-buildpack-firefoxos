@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# fail fast
+set -o errexit
+set -o nounset
+set -o pipefail
+
+scriptname=$(basename $0)
+
+cat <<EOT
+autoconf2.13
+bison
+bzip2
+ccache
+curl
+flex
+g++
+g++-multilib
+git
+libc6-dev
+libgl1-mesa-dev
+libgl1-mesa-glx:i386
+libncurses5-dev:i386
+libreadline6-dev:i386
+libx11-dev:i386
+libxml2-utils
+make
+zip
+zlib1g-dev:i386
+EOT
