@@ -18,6 +18,7 @@ g++
 g++-multilib
 git
 libasound2
+libdbus-glib-1-2
 libc6-dev
 libgl1-mesa-dev
 libgl1-mesa-glx:i386
