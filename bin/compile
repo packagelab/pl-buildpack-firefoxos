@@ -25,6 +25,16 @@ num_cpu=$(grep -c ^bogomips /proc/cpuinfo)
 VARIANT=${VARIANT:-eng}
 LUNCH=${LUNCH:-full_${DEVICE}-${VARIANT}}
 
+export GECKO_PATH
+export GAIA_PATH
+export GAIA_DOMAIN
+export GAIA_PORT
+export GAIA_DEBUG
+export GECKO_OBJDIR
+export B2G_NOOPT
+export B2G_DEBUG
+export MOZ_CHROME_MULTILOCALE
+export L10NBASEDIR
 export USE_CCACHE=1
 export CCACHE_DIR=$cache_dir/ccache
 export WGET_OPTS='-c -q'
