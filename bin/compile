@@ -38,6 +38,7 @@ export L10NBASEDIR
 export USE_CCACHE=1
 export CCACHE_DIR=$cache_dir/ccache
 export WGET_OPTS='-c -q'
+export PATH=$build_dir/build/fake-jdk-tools/bin:$PATH
 
 ccache -M $ccache_max_size
 ccache -z
