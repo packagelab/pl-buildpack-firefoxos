@@ -52,7 +52,7 @@ echo "-----> Sourcing build/envsetup.sh" >&2
 . build/envsetup.sh
 
 echo "-----> Running lunch $LUNCH" >&2
-lunch $LUNCH 2>&1 | indent
+lunch $LUNCH
 
 if [ -f "$build_dir"/device/*/$DEVICE/download-blobs.sh ]
 then
