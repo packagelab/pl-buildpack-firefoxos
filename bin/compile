@@ -81,11 +81,12 @@ fi
 echo "-----> Running make" >&2
 make -j $num_cpu 2>&1 | indent
 
-for img in out/target/product/*/system.img
+for img in out/target/product/*/*.img
 do
-  name=$(echo $img | awk -F/ '{print $4}')
-  echo "-----> Creating system-$name.zip" >&2
-  zip -yrj1 out/system-$name.zip $img 2>&1 | indent
+  name=$(basename $img | sed 's/\.img$//')
+  dev_name=$(echo $img | awk -F/ '{print $4}')
+  echo "-----> Creating $name-$dev_name.zip" >&2
+  zip -yrj1 out/$name-$dev_name.zip $img 2>&1 | indent
 done
 
 cd - >/dev/null 2>&1

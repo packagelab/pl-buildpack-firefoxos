@@ -15,7 +15,7 @@ build_dir="$1"
 
 echo "---"
 echo "artifacts:"
-for img in $build_dir/out/system-*.zip
+for img in $build_dir/out/*.zip
 do
   echo "   - out/$(basename $img)"
 done
