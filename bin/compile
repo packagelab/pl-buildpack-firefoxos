@@ -17,6 +17,7 @@ esac
 
 build_dir="$1"
 cache_dir="$2"
+backup_base_url=https://cb-misc.s3.amazonaws.com/b2g
 ccache_max_size=50G
 num_cpu=$(grep -c ^bogomips /proc/cpuinfo)
 
@@ -52,6 +53,30 @@ cd $build_dir >/dev/null 2>&1
 
   echo "-----> Running lunch $LUNCH" >&2
   lunch $LUNCH 2>&1 | indent
+
+  if [ -f "$build_dir"/device/*/$DEVICE/download-blobs.sh ]
+  then
+    echo "-----> Downloading blobs for device: $DEVICE" >&2
+    cd $build_dir/device/*/$DEVICE >/dev/null 2>&1
+    ./download-blobs.sh
+    cd - >/dev/null 2>&1
+  elif [ -f device/*/$DEVICE/extract-files.sh ]
+  then
+    echo "-----> Extracting files for device: $DEVICE" >&2
+    backup_url=$backup_base_url/backup-$DEVICE.tar.xz
+    backup_tarball=$cache_dir/backup-$DEVICE.tar.xz
+    if [ ! -f $cache_dir/backup-$DEVICE.tar.xz ]
+    then
+      echo "       Downloading: $backup_url" >&2
+      curl -fsLS -o $backup_tarball.new $backup_url 2>&1 | indent
+      mv $backup_tarball.new $backup_tarball
+    fi
+    echo "       Unpacking: $backup_tarball" >&2
+    tar -C $build_dir -xf $backup_tarball 2>&1 | indent
+    cd $build_dir/device/*/$DEVICE >/dev/null 2>&1
+    ./extract-files.sh 2>&1 | indent
+    cd - >/dev/null 2>&1
+  fi
 
   echo "-----> Running make" >&2
   make -j $num_cpu 2>&1 | indent
