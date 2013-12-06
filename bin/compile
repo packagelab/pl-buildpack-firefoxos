@@ -22,7 +22,7 @@ num_cpu=$(grep -c ^bogomips /proc/cpuinfo)
 
 . $build_dir/.config
 
-VARIANT=${VARIANT:-eng}
+VARIANT=${VARIANT:-user}
 LUNCH=${LUNCH:-full_${DEVICE}-${VARIANT}}
 
 export GECKO_PATH
